@@ -1,0 +1,11 @@
+<h4>Login: </h4>
+<form>
+<div class="form-group">
+  <label for="email">email:</label>
+  <input type="email" name="email" [(ngModel)]="email" class="form-control" id="email">
+  <label for="password">Password:</label>
+  <input type="password" name="password" [(ngModel)]="password" class="form-control" id="password">
+</div>
+<button type="submit" (click)="login()" class="btn btn-primary">Log in</button>
+<a (click)="showRegisterForm()"> Register</a>
+</form>

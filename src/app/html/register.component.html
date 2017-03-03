@@ -1,0 +1,13 @@
+<h4>New user: </h4>
+    <form>
+      <div class="form-group">
+        <label for="newEmail">email:</label>
+        <input type="email" name="regEmail" [(ngModel)]="email" class="form-control" id="regEmail">
+        <label for="newName">name:</label>
+        <input type="text" name="regName" [(ngModel)]="name" class="form-control" id="regName">
+        <label for="password">password:</label>
+        <input type="password" name="regPassword" [(ngModel)]="password" class="form-control" id="regPassword">
+      </div>
+      <button type="submit" (click)="register()" class="btn btn-primary">Register</button>
+      <a (click)="showLoginForm()"> Already have an account?</a>
+    </form>

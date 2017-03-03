@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-3">
+    <h3> Stock Component</h3>
+  <div *ngIf="stock">
+    <h4> Name: {{stock.name}} </h4>
+    <h4> Symbol: {{stock.symbol}} </h4>
+    <h4> Exchange: {{stock.exchange}} </h4>
+  </div>
+</div>
+  <div class="col-md-9">
+    <chart-component></chart-component>
+  </div>
+</div>
+<div *ngIf="stock" class="row">
+  <div class="col-md-6">
+  <comment-component *ngIf="stock" [stockId]="stock.id"></comment-component>
+</div>
+</div>

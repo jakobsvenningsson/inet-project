@@ -1,0 +1,15 @@
+<h3> StockList Component</h3>
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Exchange</th>
+  </tr>
+</thead>
+  <tbody>
+  <tr (click)="showStock(stock)" [routerLink]="['/stocks', stock.id]" *ngFor="let stock of stocks">
+    <th> {{stock.name}} </th>
+    <th> {{stock.exchange}} </th>
+  </tr>  
+</tbody>
+</table>

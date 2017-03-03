@@ -1,0 +1,15 @@
+  <h5>Leave a comment:</h5>
+  <div class="row" *ngFor="let comment of comments" >
+     {{comment.author}}
+     {{comment.timestamp}}
+     {{comment.content}}
+  </div>
+    <div class="row" *ngFor="let typ of typers">
+      {{typ.name}} is typing!
+    </div>
+  <div class="row">
+    <form [formGroup]="commentForm" (ngSubmit)="postComment(commentForm.value)">
+      <textarea formControlName="commentContent" class="form-control" rows="3" name="commentContent"></textarea>
+      <button type="submit" class="btn btn-default">post</button>
+    </form>
+  </div>
