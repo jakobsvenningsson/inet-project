@@ -3,22 +3,27 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Comment } from '../models/comment';
 import * as io from "socket.io-client";
+import { AuthGuard } from './auth-guard.service';
 
 @Injectable()
 export class CommentService {
   private socket;
 
-  constructor(private http: Http){
-    this.socket = io.connect("http://localhost:3000");
+  constructor(private http: Http, private auth: AuthGuard){
+    this.socket = io.connect("http://130.229.167.242:3000");
   }
   postComment(comment:Object): Promise<Response>{
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    const authToken = this.auth.getUser();
+    const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization' : authToken.token });
+    const options = new RequestOptions({ headers: headers });
     return this.http.post('/api/comments/submit', comment, options)
       .toPromise();
   }
   getComments(stockId:string): Promise<Response>{
-    return this.http.get('/api/comments/' + stockId)
+    const authToken = this.auth.getUser();
+    const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization' : authToken.token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get('/api/comments/' + stockId, options)
       .toPromise();
   }
   getCommentStream(stockId:string): Observable<Comment>{

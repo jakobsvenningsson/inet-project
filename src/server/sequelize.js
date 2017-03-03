@@ -1,7 +1,9 @@
 var Sequelize = require('sequelize');
+var debug = require('debug')('debug');
 //mysql --host=mysql-vt2016.csc.kth.se --user=jaksve_admin --password=o3qrVJkh
 var sequelize = new Sequelize('jaksve', 'jaksve_admin', 'o3qrVJkh', {
   host: 'mysql-vt2016.csc.kth.se',
+  logging: false,
   dialect: 'mysql',
   pool: {
     max: 5,
@@ -10,11 +12,12 @@ var sequelize = new Sequelize('jaksve', 'jaksve_admin', 'o3qrVJkh', {
   }
 });
 
+
 sequelize.authenticate()
          .then(function(err){
-           console.log('success');
+           debug('Conected to database!');
          },function(err){
-           console.log(err);
+           debug(err);
          });
 
 module.exports = {

@@ -1,24 +1,25 @@
 /* jslint node: true */
 /*jshint esversion: 6 */
-
 "use strict";
 
-module.exports = function(sequelize, Sequelize) {
+const db = require('../sequelize.js');
 
-  var Com = sequelize.define('comments', {
+module.exports = function() {
+
+  var Com = db.sequelize.define('comments', {
    id: {
-     type: Sequelize.INTEGER,
+     type: db.Sequelize.INTEGER,
      primaryKey: true,
      autoIncrement: true
    },
    author: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    content: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    stock: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    }
   },{
     timestamps: true

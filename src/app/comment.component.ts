@@ -61,8 +61,6 @@ export class CommentComponent implements OnInit, OnDestroy {
           this.typingStream = this.commentService.getTypingStream(this.stockId)
             .subscribe(
               (user)=>{
-              //  console.log(this.token);
-              //  console.log(user);
                   if(!this.inArray(user['id']) && user['add'] && user['id'] !== this.token.id) { //&& user['id'] !== this.token.id)
                       this.typers.push(new User(user['email'], user['name'], user['id']));
                   }else if(!user['add']){
@@ -76,7 +74,6 @@ export class CommentComponent implements OnInit, OnDestroy {
               .do(()=>
                 {
                   console.log("typing");
-                //  console.log(this.auth.getUser());
                   this.commentService.isTyping({id: this.auth.getUser().id, name: this.auth.getUser().name, stock:this.stockId});
                 })
               .debounceTime(1200)

@@ -3,24 +3,26 @@
 
 "use strict";
 
+const db = require('../sequelize.js');
+
 var bcrypt = require('bcrypt');
 
-module.exports = function(sequelize, Sequelize) {
+module.exports = function() {
 
-  var User = sequelize.define('users', {
+  var User = db.sequelize.define('users', {
    id: {
-     type: Sequelize.INTEGER,
+     type: db.Sequelize.INTEGER,
      primaryKey: true,
      autoIncrement: true
    },
    email: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    password: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    name: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    }
   },{
     timestamps: false,
@@ -39,27 +41,5 @@ module.exports = function(sequelize, Sequelize) {
     }
   }
 });
-
-
-
-  /*User.generateHash = function(password, saltRounds){
-    bcrypt.genSalt(saltRounds)
-      .then(function(salt){
-        console.log(salt);
-        return bcrypt.hash(password, salt);
-      })
-      .then(function(hash){
-        console.log(hash);
-      return hash;
-    });
-  };
-
-  User.validatePassword = function(password, hash){
-    bcrypt.compare(password, hash).then(function(valid){
-      return valid;
-    });
-  };*/
-
-
   return User;
 };

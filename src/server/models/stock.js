@@ -3,22 +3,24 @@
 
 "use strict";
 
-module.exports = function(sequelize, Sequelize) {
+const db = require('../sequelize.js');
 
-  var Stock = sequelize.define('stocks', {
+module.exports = function() {
+
+  var Stock = db.sequelize.define('stocks', {
    id: {
-     type: Sequelize.INTEGER,
+     type: db.Sequelize.INTEGER,
      primaryKey: true,
      autoIncrement: true
    },
    name: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    symbol: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    },
    exchange: {
-     type: Sequelize.STRING
+     type: db.Sequelize.STRING
    }
   },{
     timestamps: false
