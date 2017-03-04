@@ -5,17 +5,14 @@ import { CanActivate, Router } from '@angular/router';
 export class AuthGuard implements CanActivate {
 
   private token = null;
-
   constructor(private router: Router) {
     if(sessionStorage.getItem("currentUser")){
       console.log("loggggging in");
       this.token = JSON.parse(sessionStorage.getItem("currentUser"));
     }
   }
-
-
+  // This method will be called when trying to enter a restricted route in the application.
   canActivate() {
-    // If user is not logged in we'll send them to the homepage
     console.log(typeof(sessionStorage.getItem('currentUser')));
     if (sessionStorage.getItem('currentUser')){
       return true;
@@ -33,7 +30,6 @@ export class AuthGuard implements CanActivate {
 
   setUser(user){
     this.token = user;
-    console.log(user);
   }
 
   getUser(){

@@ -41,9 +41,9 @@ export class CommentComponent implements OnInit, OnDestroy {
           res.json().forEach((comment)=>{
             console.log(comment);
             if(comment.userId === String(user.id)){
-              this.comments.push(new Comment(comment.user.name, comment.content, comment.stock, comment.createdAt,true));
+              this.comments.push(new Comment(comment.user.name, comment.content, comment.stockId, comment.createdAt,comment.id, true));
             }else {
-              this.comments.push(new Comment(comment.user.name, comment.content, comment.stock, comment.createdAt,false));
+              this.comments.push(new Comment(comment.user.name, comment.content, comment.stockId, comment.createdAt,comment.id,false));
             }
           });
         })
@@ -54,7 +54,11 @@ export class CommentComponent implements OnInit, OnDestroy {
         this.commentStream = this.commentService.getCommentStream(this.stockId)
           .subscribe(
             comment=> {
-              this.comments.push(comment);
+              if(comment.author){
+                this.comments.push(comment);
+              } else {
+                this.removeWithId2(comment.id, this.comments);
+              }
             },
             error=> console.log(error),
             () => console.log("finished")
@@ -120,6 +124,15 @@ export class CommentComponent implements OnInit, OnDestroy {
     }
   }
 
+  removeWithId2(id, list){
+    for(let i = 0;i < list.length; ++i){
+      if(list[i].id===id){
+        console.log("remove");
+        list.splice(i,1);
+      }
+    }
+  }
+
   postComment(post){
     console.log(post);
     this.commentForm.reset();
@@ -132,4 +145,15 @@ export class CommentComponent implements OnInit, OnDestroy {
         console.log(err);
       });
   }
+
+  removeComment(comment:Comment){
+    console.log(comment);
+    this.commentService.deleteComment(comment)
+      .then(function(data){
+        console.log(data);
+      })
+      .catch(function(err){
+        console.log(err);
+      });
+  };
 }

@@ -9,20 +9,22 @@ import * as io from "socket.io-client";
 
 @Injectable()
 export class StockService {
+  
   private socket;
   constructor(private http: Http, private auth: AuthGuard){
     this.socket = io.connect("http://localhost:3000");
   }
 
-  searchStocks(name:string): Promise<Response>{
+  searchStocks(name:string): Promise<Response> {
     const authToken = this.auth.getUser();
     const headers = new Headers({'Authorization' : authToken.token});
     const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/stocks/external/search/' + name, options)
       .toPromise();
   }
-  getStockData(symbol: string): Observable<any>{
-    return new Observable(observer=>{
+
+  getStockData(symbol: string): Observable<any> {
+    return new Observable(observer=> {
       this.socket.emit('startStream',{channel: symbol});
       this.socket.on('newSocketData', (data)=>{
         observer.next(data);
@@ -30,14 +32,14 @@ export class StockService {
     });
   }
 
-  getStockHistory(symbol: string): Observable<any>{
+  getStockHistory(symbol: string): Observable<Response> {
     const authToken = this.auth.getUser();
     const headers = new Headers({'Authorization' : authToken.token});
     const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/stocks/history/' + symbol, options);
   }
 
-  addStockToDatabase(stock: Stock): Promise<Response>{
+  addStockToDatabase(stock: Stock): Promise<Response> {
     const authToken = this.auth.getUser();
     const headers = new Headers({'Authorization' : authToken.token, 'Content-Type':'application/json'});
     const options = new RequestOptions({ headers: headers });
@@ -45,7 +47,7 @@ export class StockService {
         .toPromise();
   }
 
-  getStocks(): Promise<Response>{
+  getStocks(): Promise<Response> {
     const authToken = this.auth.getUser();
     const headers = new Headers({'Authorization' : authToken.token});
     const options = new RequestOptions({ headers: headers });
@@ -53,16 +55,15 @@ export class StockService {
       .toPromise();
   }
 
-  getStock(id: string): Promise<Response>{
+  getStock(stockId: number): Promise<Response> {
     const authToken = this.auth.getUser();
-    const headers = new Headers({'Authorization' : authToken.token});
+    const headers = new Headers({'Authorization': authToken.token});
     const options = new RequestOptions({ headers: headers });
-    return this.http.get('/api/stocks/' + id, options)
+    return this.http.get('/api/stocks/' + stockId, options)
       .toPromise();
   }
 
   endStream(symbol){
-    console.log("END STREAM");
     this.socket.emit('endStream',{channel:symbol});
   }
 }

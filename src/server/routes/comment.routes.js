@@ -15,6 +15,7 @@ module.exports = function(io){
     commentModel.create(req.body)
       .then(function(data){
         comment.timestamp = data.get().createdAt;
+        comment.id = data.get().id;
         res.status(200).send("Comment submitted");
         return userModel.findOne({
                   where: {id:data.get().userId}
@@ -47,6 +48,20 @@ module.exports = function(io){
         debug(err);
         res.status(400).send(err);
       });
+  });
+
+  router.delete('/comments/delete/:id', passport.authenticate('jwt', { session: false }), function(req, res){
+    commentModel.findOne({
+      where: {id:req.params.id}
+    })
+    .then(function(comment){
+      io.to(comment.stockId).emit('deleteComment', comment);
+      comment.destroy();
+      res.status(200).send("Comment deleted");
+    })
+    .catch(function(err){
+      res.send(400).send(err);
+    });
   });
 
   return router;

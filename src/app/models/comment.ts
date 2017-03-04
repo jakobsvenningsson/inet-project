@@ -4,11 +4,13 @@ export class Comment{
   stock: number;
   timestamp:string;
   owner:boolean = false;
-  constructor(author:number, content: string, stockId: number, timestamp: string, owner?:boolean){
+  id:number;
+  constructor(author:number, content: string, stockId: number, timestamp: string, id:number,owner?:boolean){
     this.author = author;
     this.content = content;
     this.stock = stockId;
     this.timestamp = timestamp;
     this.owner = owner;
+    this.id = id;
   }
 }
