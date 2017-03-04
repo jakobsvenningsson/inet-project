@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { StockService} from '../services/stock.service';
 import { FavoriteService } from '../services/favorite.service';
 import { Stock } from '../models/stock';
@@ -11,9 +11,10 @@ import { Favorite } from '../models/favorite';
   providers: [StockService, FavoriteService]
 })
 
-export class StockListComponent implements OnInit{
+export class StockListComponent implements OnInit, OnDestroy{
 
   stockList:Stock[] = [];
+  private favoriteStream;
   constructor(private stockService:StockService, private auth: AuthGuard,  private favoriteService: FavoriteService){}
 
   ngOnInit(){
@@ -21,49 +22,52 @@ export class StockListComponent implements OnInit{
     Promise.all([this.stockService.getStocks(), this.favoriteService.getFavorites()])
       .then((values)=>{
         values[0].json().forEach((stock) => {
-          if(values[1].json().length && values[1].json().find((favorite) => Number(favorite.stockId) === Number(stock.id))) {
+          if(values[1].json().length && values[1].json().find((favorite) => favorite.stockId === stock.id)) {
             this.stockList.push(new Stock(stock.name, stock.symbol, stock.exchange, stock.id, true));
           } else {
-            this.stockList.push(new Stock(stock.name, stock.symbol, stock.exchange, stock.id));
+            this.stockList.push(new Stock(stock.name, stock.symbol, stock.exchange, stock.id, false));
           }
         });
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err);
       });
       // Subscribe for updates of favorites
-      this.favoriteService.favoriteStream()
-        .subscribe((favorite: Favorite)=>{
+      this.favoriteStream = this.favoriteService.favoriteStream()
+        .subscribe((favorite: Favorite )=> {
             this.updateFavoriteList(favorite);
         });
   }
 
-  updateFavoriteList(data){
-    for(let i = 0; i < this.stockList.length; ++i){
-      if(Number(data.stockId) === Number(this.stockList[i].id)){
-        this.stockList[i].favorite = data.isFavorite;
-        console.log(this.stockList[i].favorite );
-      }
-    }
+  ngOnDestroy() {
+    this.favoriteStream.unsubscribe();
   }
 
-  makeFavorite(stock:Stock){
+  updateFavoriteList(favorite: Favorite) {
+    this.stockList.map((stock) => {
+      if(favorite.stockId === stock.id) {
+        stock.favorite = favorite.isFavorite;
+        return stock;
+      }
+    });
+  }
 
-    if(stock.favorite){
+  alterFavorite(stock: Stock) {
+    if(stock.favorite) {
       this.favoriteService.removeFavorite(stock.id)
-        .then((data)=>{
+        .then((res) => {
           console.log("favorite removed");
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err);
         });
 
     } else {
       this.favoriteService.addFavorite(stock.id)
-        .then((data)=>{
+        .then((data) => {
           console.log("favorite added");
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err);
         });
     }

@@ -16,32 +16,32 @@ export class FavoriteService {
 
   addFavorite(stockId: number): Promise<Response> {
     const user = this.auth.getUser();
-    let headers = new Headers({'Authorization' : user.token, 'Content-Type' : 'application/json'});
-    let options = new RequestOptions({ headers: headers });
+    const headers = new Headers({'Authorization' : user.token, 'Content-Type' : 'application/json'});
+    const options = new RequestOptions({ headers: headers });
     return this.http.post('/api/favorite/add', { stockId: stockId, userId: user.id}, options)
       .toPromise();
   }
 
   getFavorites(): Promise<Response> {
     const user = this.auth.getUser();
-    let headers = new Headers({'Authorization' : user.token});
-    let options = new RequestOptions({ headers: headers });
+    const headers = new Headers({'Authorization' : user.token});
+    const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/favorite/get/' + user.id, options)
       .toPromise();
   }
 
   removeFavorite(stockId: number): Promise<Response> {
     const user = this.auth.getUser();
-    let headers = new Headers({'Authorization' : user.token});
-    let options = new RequestOptions({ headers: headers });
+    const headers = new Headers({'Authorization' : user.token});
+    const options = new RequestOptions({ headers: headers });
     return this.http.delete('/api/favorite/remove/' + user.id + '/' + stockId, options)
       .toPromise();
   }
 
   getTopList(): Promise<Response> {
     const user = this.auth.getUser();
-    let headers = new Headers({'Authorization' : user.token});
-    let options = new RequestOptions({ headers: headers });
+    const headers = new Headers({'Authorization' : user.token});
+    const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/favorite/', options)
       .toPromise();
   }
@@ -49,12 +49,12 @@ export class FavoriteService {
   favoriteStream(): Observable<Favorite>{
     const user = this.auth.getUser();
     return new Observable(observer=>{
-      this.socket.emit("joinFavorites", {user:user.id});
+      this.socket.emit("joinFavorites", {user: user.id});
       console.log("listening");
-      this.socket.on("addFavorite", function(data){
+      this.socket.on("addFavorite", (data) => {
         observer.next(new Favorite(data.userId, data.stockId, true));
       });
-      this.socket.on("removeFavorite", function(data){
+      this.socket.on("removeFavorite", (data) => {
         observer.next(new Favorite(data.userId, data.stockId, false));
       });
     });
