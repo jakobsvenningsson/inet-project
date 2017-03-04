@@ -5,14 +5,13 @@ const router = express.Router();
 const commentModel = require('../models/comment.js')();
 const passport = require('passport');
 const debug = require('debug')('debug');
-const io = require('socket.io');
-
 
 module.exports = function(io){
   router.post('/comments/submit', passport.authenticate('jwt', { session: false }), function(req, res){
     commentModel.create(req.body)
       .then(function(data){
-        debug("Inside comments submit");
+        debug("Emitting comment" + data);
+        debug(data.stock);
         io.to(data.stock).emit('newComment', data);
         res.status(200).send("Comment submitted");
       })

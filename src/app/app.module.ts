@@ -15,7 +15,6 @@ import { ChartComponent } from './chart.component';
 import { UnautherizedComponent } from './unautherized.component';
 import { CommentComponent } from './comment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TokenService } from './services/token.service';
 
 
 
@@ -53,7 +52,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes,{useHash: true})
   ],
-  providers: [AuthGuard,TokenService],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

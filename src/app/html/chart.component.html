@@ -1,7 +1,22 @@
+
   <div style="display: block;">
-    <canvas baseChart
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
+    <h4>Real-Time</h4>
+    <canvas  baseChart
+                [datasets]="lineChartRealTimeData"
+                [labels]="lineChartRealTimeLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
+  <div style="display: block;">
+    <h4>History</h4>
+    <canvas *ngIf="lineChartHistoryData && lineChartHistoryLabels" baseChart
+                [datasets]="lineChartHistoryData"
+                [labels]="lineChartHistoryLabels"
                 [options]="lineChartOptions"
                 [colors]="lineChartColors"
                 [legend]="lineChartLegend"

@@ -22,12 +22,11 @@ create table stocks (
 );
 
 create table favorites (
-	id int NOT NULL AUTO_INCREMENT,
-		stock_id varchar(64),
-		user_id varchar(64),
-	FOREIGN KEY (stock_id) REFERENCES stocks.id,
-	FOREIGN KEY (user_id) REFERENCES users.id,
-	PRIMARY KEY (id)
+	stock varchar(64),
+	user varchar(64),
+	FOREIGN KEY (stock) REFERENCES stocks.id,
+	FOREIGN KEY (user) REFERENCES users.id,
+	PRIMARY KEY (stock, user)
 );
 
 create table comments (

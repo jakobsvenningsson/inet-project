@@ -20,6 +20,7 @@ import { AuthGuard } from './services/auth-guard.service';
 
 export class CommentComponent implements OnInit, OnDestroy {
   @Input() stockId;
+
   socket:any;
   comments: Comment[] = [];
   typers: User[] = [];
@@ -36,9 +37,7 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.commentService.getComments(this.stockId)
       .then((res)=>{
           this.comments = [];
-          console.log(res.json());
           res.json().forEach((comment)=>{
-            console.log(comment);
             this.comments.push(new Comment(comment.author, comment.content, comment.stock, comment.createdAt));
           });
         })
@@ -82,23 +81,6 @@ export class CommentComponent implements OnInit, OnDestroy {
                 this.commentService.stoppedTyping({id: this.auth.getUser().id, name: this.auth.getUser().name, stock:this.stockId});
               }
               );
-
-
-
-
-        /*  this.commentForm.valueChanges.sampleTime(1000).do(()=>{
-            console.log("typing");
-            console.log(this.auth.getUser());
-            this.commentService.isTyping({id: this.auth.getUser().id, name: this.auth.getUser().name, stock:this.stockId});
-          })
-          .debounceTime(1000)
-          .subscribe(()=>{
-            console.log("done typing");
-            this.commentService.stoppedTyping({id: this.auth.getUser().id, name: this.auth.getUser().name, stock:this.stockId});
-          },
-          err=>console.log(err)
-        );*/
-
 
       }
       ngOnDestroy(){

@@ -10,7 +10,7 @@ export class CommentService {
   private socket;
 
   constructor(private http: Http, private auth: AuthGuard){
-    this.socket = io.connect("http://130.229.167.242:3000");
+    this.socket = io.connect("http://localhost:3000");
   }
   postComment(comment:Object): Promise<Response>{
     const authToken = this.auth.getUser();
@@ -28,8 +28,9 @@ export class CommentService {
   }
   getCommentStream(stockId:string): Observable<Comment>{
     return new Observable(observer=>{
-      this.socket.emit("join", {stock:stockId});
+      this.socket.emit("join", {channel: stockId});
       this.socket.on('newComment', function(comment){
+        console.log("asocket comment");
         observer.next(new Comment(comment.author, comment.content, comment.stock, comment.createdAt));
       });
     });

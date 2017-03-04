@@ -3,12 +3,16 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import { Stock } from '../models/stock';
 import { AuthGuard } from './auth-guard.service';
+import { Observable } from 'rxjs/Observable';
+import * as io from "socket.io-client";
 
 
 @Injectable()
 export class StockService {
-
-  constructor(private http: Http, private auth: AuthGuard){}
+  private socket;
+  constructor(private http: Http, private auth: AuthGuard){
+    this.socket = io.connect("http://localhost:3000");
+  }
 
   searchStocks(name:string): Promise<Response>{
     const authToken = this.auth.getUser();
@@ -16,6 +20,21 @@ export class StockService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/stocks/external/search/' + name, options)
       .toPromise();
+  }
+  getStockData(symbol: string): Observable<any>{
+    return new Observable(observer=>{
+      this.socket.emit('startStream',{channel: symbol});
+      this.socket.on('newSocketData', (data)=>{
+        observer.next(data);
+      });
+    });
+  }
+
+  getStockHistory(symbol: string): Observable<any>{
+    const authToken = this.auth.getUser();
+    const headers = new Headers({'Authorization' : authToken.token});
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get('/api/stocks/history/' + symbol, options);
   }
 
   addStockToDatabase(stock: Stock): Promise<Response>{
@@ -40,5 +59,10 @@ export class StockService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get('/api/stocks/' + id, options)
       .toPromise();
+  }
+
+  endStream(symbol){
+    console.log("END STREAM");
+    this.socket.emit('endStream',{channel:symbol});
   }
 }

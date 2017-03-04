@@ -1,15 +1,19 @@
-<h3> StockList Component</h3>
-<table class="table table-hover">
+<div class="row top-buffer">
+<h4>Stocks in database</h4>
+<table class="table table-hover top-buffer">
   <thead>
   <tr>
     <th>Name</th>
     <th>Exchange</th>
+    <th></th>
   </tr>
 </thead>
   <tbody>
-  <tr (click)="showStock(stock)" [routerLink]="['/stocks', stock.id]" *ngFor="let stock of stocks">
-    <th> {{stock.name}} </th>
-    <th> {{stock.exchange}} </th>
-  </tr>  
+  <tr  *ngFor="let stock of stocks">
+    <th [routerLink]="['/stocks', stock.id]"> {{stock.name}} </th>
+    <th [routerLink]="['/stocks', stock.id]"> {{stock.exchange}} </th>
+    <th (click)="makeFavorite(stock)"> <i class="fa fa-heart-o" aria-hidden="true"></i></th>
+  </tr>
 </tbody>
 </table>
+</div>

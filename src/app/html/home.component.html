@@ -11,9 +11,14 @@
 
     <div class="col-md-6">
       <div *ngIf="token">
-        <h3>Loggin in!</h3>
-        <h4> Email: {{token.email}} , name: {{token.name}} </h4>
-        <button class="btn btn-primary" (click)="logout()">logout</button>
+        <div class="jumbotron">
+          <h4>You are logged in!</h4>
+          <br>
+          <p> Email: {{token.email}} </p>
+          <p> Name: {{token.name}} </p>
+          <button class="btn btn-primary" (click)="logout()">logout</button>
+      </div>
+
       </div>
     <div class="row alert alert-danger" *ngIf="formError"> {{formError}} </div>
     <div class="row alert alert-success" *ngIf="registerStatus"> {{registerStatus}} </div>

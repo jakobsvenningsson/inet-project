@@ -26,8 +26,8 @@ const io = require('socket.io').listen(server);
 
 const routes = require('./src/server/routes/index.routes.js')(io);
 app.use('/api', routes);
-
 app.get('*', (req, res) => {
+  console.log("awdawdawdad");
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 

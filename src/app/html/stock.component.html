@@ -1,6 +1,5 @@
-<div class="row">
+<div class="row top-buffer">
   <div class="col-md-3">
-    <h3> Stock Component</h3>
   <div *ngIf="stock">
     <h4> Name: {{stock.name}} </h4>
     <h4> Symbol: {{stock.symbol}} </h4>
@@ -8,7 +7,9 @@
   </div>
 </div>
   <div class="col-md-9">
-    <chart-component></chart-component>
+    <div  *ngIf="stockSymbol">
+    <chart-component [stockSymbol]="stockSymbol"></chart-component>
+  </div>
   </div>
 </div>
 <div *ngIf="stock" class="row">

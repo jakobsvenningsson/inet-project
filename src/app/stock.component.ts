@@ -4,6 +4,7 @@ import { Stock } from './models/stock';
 import { ActivatedRoute } from '@angular/router';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { ChartComponent } from './chart.component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'stock-component',
@@ -13,6 +14,7 @@ import { ChartComponent } from './chart.component';
 })
 
 export class StockComponent{
+  stockSymbol:string;
   stock:Stock;
   constructor(private stockService: StockService, private route: ActivatedRoute){}
   ngOnInit() {
@@ -21,6 +23,7 @@ export class StockComponent{
           .then((data)=>{
             let stock = data.json();
             this.stock = new Stock(stock.name, stock.symbol, stock.exchange, stock.id);
+            this.stockSymbol = stock.symbol;
           })
           .catch((err)=>{
             console.log(err);
