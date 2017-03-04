@@ -1,4 +1,5 @@
-
+<div class="row top-buffer">
+<div class="col-md-6">
   <div style="display: block;">
     <h4>Real-Time</h4>
     <canvas  baseChart
@@ -12,6 +13,8 @@
                 (chartClick)="chartClicked($event)">
     </canvas>
   </div>
+</div>
+<div class="col-md-6">
   <div style="display: block;">
     <h4>History</h4>
     <canvas *ngIf="lineChartHistoryData && lineChartHistoryLabels" baseChart
@@ -25,3 +28,5 @@
                 (chartClick)="chartClicked($event)">
     </canvas>
   </div>
+</div>
+</div>

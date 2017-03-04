@@ -9,7 +9,6 @@ export class UserService {
   submitLogin(email:string, password:string): Promise<Response> {
     let headers = new Headers({'Content-Type' : 'application/json'});
     let options = new RequestOptions({ headers: headers });
-    console.log("awwdadw");
     return this.http.post('/api/login', { email: email, password: password }, options)
       .toPromise();
   }

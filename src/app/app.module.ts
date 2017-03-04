@@ -15,6 +15,7 @@ import { ChartComponent } from './chart.component';
 import { UnautherizedComponent } from './unautherized.component';
 import { CommentComponent } from './comment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FavoriteStocksComponent } from './favorites-stocks.component';
 
 
 
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'unautherized', component: UnautherizedComponent},
   { path: 'stock-search',component: StockSearchComponent, canActivate:[AuthGuard] },
+  { path: 'favorites',component: FavoriteStocksComponent, canActivate:[AuthGuard] },
   { path: 'stocks', component: StockListComponent, canActivate:[AuthGuard]},
   { path: 'stocks/:id', component: StockComponent, canActivate:[AuthGuard]},
   { path: '**',
@@ -41,7 +43,8 @@ const appRoutes: Routes = [
     StockComponent,
     ChartComponent,
     CommentComponent,
-    UnautherizedComponent
+    UnautherizedComponent,
+    FavoriteStocksComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,9 @@
 export class User{
-  email:string;
   name:string;
-  id:string;
-  constructor(email:string, name:string, id:string){
+  id:number;
+  email:string;
+
+  constructor(email:string, name:string, id:number){
     this.email = email;
     this.name = name;
     this.id = id;

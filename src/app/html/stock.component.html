@@ -1,19 +1,27 @@
-<div class="row top-buffer">
-  <div class="col-md-3">
-  <div *ngIf="stock">
-    <h4> Name: {{stock.name}} </h4>
-    <h4> Symbol: {{stock.symbol}} </h4>
-    <h4> Exchange: {{stock.exchange}} </h4>
-  </div>
-</div>
-  <div class="col-md-9">
-    <div  *ngIf="stockSymbol">
+
+
+
+<div  *ngIf="stockSymbol">
     <chart-component [stockSymbol]="stockSymbol"></chart-component>
-  </div>
-  </div>
 </div>
-<div *ngIf="stock" class="row">
+<div class="row top-buffer">
   <div class="col-md-6">
-  <comment-component *ngIf="stock" [stockId]="stock.id"></comment-component>
+    <div class="col-md-1"> </div>
+    <div class="col-md-11">
+      <comment-component *ngIf="stock" [stockId]="stock.id"></comment-component>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="col-md-1"> </div>
+    <div class="col-md-11">
+
+    <h4>Stock info</h4>
+    <ul class="list-group" *ngIf="stock">
+      <li class="list-group-item">Name: {{stock.name}}</li>
+      <li class="list-group-item">Symbol: {{stock.symbol}} </li>
+      <li class="list-group-item">Exchange: {{stock.exchange}}</li>
+    </ul>
+  </div>
 </div>
 </div>

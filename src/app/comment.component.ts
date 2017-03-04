@@ -37,8 +37,14 @@ export class CommentComponent implements OnInit, OnDestroy {
     this.commentService.getComments(this.stockId)
       .then((res)=>{
           this.comments = [];
+          const user = this.auth.getUser();
           res.json().forEach((comment)=>{
-            this.comments.push(new Comment(comment.author, comment.content, comment.stock, comment.createdAt));
+            console.log(comment);
+            if(comment.userId === String(user.id)){
+              this.comments.push(new Comment(comment.user.name, comment.content, comment.stock, comment.createdAt,true));
+            }else {
+              this.comments.push(new Comment(comment.user.name, comment.content, comment.stock, comment.createdAt,false));
+            }
           });
         })
         .catch((err)=>{
@@ -60,10 +66,16 @@ export class CommentComponent implements OnInit, OnDestroy {
           this.typingStream = this.commentService.getTypingStream(this.stockId)
             .subscribe(
               (user)=>{
-                  if(!this.inArray(user['id']) && user['add'] && user['id'] !== this.token.id) { //&& user['id'] !== this.token.id)
-                      this.typers.push(new User(user['email'], user['name'], user['id']));
+                  console.log("-------");
+                  console.log(user);
+                  console.log(this.token);
+                  console.log("-------");
+                  if(!this.inArray(user['userId']) && (user['add'] && user['userId'] !== this.token.id)) { //&& user['id'] !== this.token.id)&& user['userId'] !== this.token.id)
+                      console.log("ADD");
+                      this.typers.push(new User("user['email']", user['name'], user['userId']));
                   }else if(!user['add']){
-                    this.removeWithId(user['id']);
+                    console.log("REMOVE");
+                    this.removeWithId(user['userId']);
                   }
               },
               (error)=>console.log(error)
@@ -109,9 +121,10 @@ export class CommentComponent implements OnInit, OnDestroy {
   }
 
   postComment(post){
+    console.log(post);
     this.commentForm.reset();
     console.log(post.commentContent);
-    this.commentService.postComment({author:this.token.name, content:post.commentContent, stock:this.stockId})
+    this.commentService.postComment({userId:this.token.id, content:post.commentContent, stockId:this.stockId})
       .then(function(res){
         console.log("Comment added");
       })

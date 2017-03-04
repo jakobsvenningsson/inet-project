@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const favoriteModel = require('../models/favorite.js')();
+const favoriteModel = require('../models/models.js').favoriteModel;
 const passport = require('passport');
 const debug = require('debug')('debug');
 
@@ -10,7 +10,7 @@ module.exports = function(io){
   router.post('/favorite/add', passport.authenticate('jwt', { session: false }), function(req, res){
     debug(req.body);
     favoriteModel.findOne({
-      where: {user:req.body.user, stock:req.body.stock}
+      where: {userId:req.body.user, stockId:req.body.stock}
     })
     .then(function(favorite){
       if(favorite){
@@ -20,6 +20,9 @@ module.exports = function(io){
       }
     })
     .then(function(favorite){
+        debug("-----");
+        debug(favorite);
+        io.to(favorite.userId).emit('addFavorite', favorite);
         res.status(200).send("Favorite added!");
       })
     .catch(function(err){
@@ -31,10 +34,12 @@ module.exports = function(io){
   router.post('/favorite/remove', passport.authenticate('jwt', { session: false }), function(req, res){
     debug(req.body);
     favoriteModel.findOne({
-      where: {user:req.body.user, stock:req.body.stock}
+      where: {userId:req.body.user, stockId:req.body.stock}
     })
       .then(function(data){
         data.destroy();
+        console.log(data);
+        io.to(data.userId).emit('removeFavorite', favorite);
         res.status(200).send("Favorite removed!");
       })
       .catch(function(err){

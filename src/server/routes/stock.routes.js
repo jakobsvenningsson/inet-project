@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const stockModel = require('../models/stock.js')();
+const stockModel = require('../models/models.js').stockModel;
 const passport = require('passport');
 const debug = require('debug')('debug');
 const http = require('http');

@@ -59,6 +59,11 @@ module.exports = function (socket, io) {
     debug("disconnect!");
   });
 
+  socket.on('joinFavorites',function(user){
+    console.log("Someone has joined favorites room");
+    socket.join(user.id);
+  });
+
   function getStockData(data){
     http.get({
       host:'marketdata.websol.barchart.com',

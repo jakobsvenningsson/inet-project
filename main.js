@@ -31,6 +31,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+app.use(function (err, req, res, next) {
+  if(err){
+    console.log(err);
+  }
+});
+
 
 var socketController = require('./src/server/socketController.js');
 io.on('connection', function (socket) {

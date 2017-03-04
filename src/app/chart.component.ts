@@ -15,14 +15,14 @@ export class ChartComponent implements OnDestroy{
 constructor(private stockService: StockService){}
 private stockStream;
 ngOnInit(){
-  this.getStockHistory(this.stockSymbol);
-  this.getStockDataStream(this.stockSymbol);
+//  this.getStockHistory(this.stockSymbol);
+//  this.getStockDataStream(this.stockSymbol);
 }
 
 ngOnDestroy(){
   console.log("DESTORY");
-  this.stockStream.unsubscribe();
-  this.stockService.endStream(this.stockSymbol);
+  //this.stockStream.unsubscribe();
+  //this.stockService.endStream(this.stockSymbol);
 }
 
 getStockDataStream(symbol){
@@ -67,8 +67,8 @@ public lineChartColors:Array<any> = [
 ];
 public lineChartLegend:boolean = true;
 public lineChartType:string = 'line';
-public lineChartHistoryData:Array<any>;
-public lineChartHistoryLabels:Array<any>;
+public lineChartHistoryData:Array<any> = [{data:[],label:this.stockSymbol}];
+public lineChartHistoryLabels:Array<any> = [];
 public lineChartOptions:any = {
   responsive: true
 };

@@ -12,13 +12,13 @@ module.exports = function() {
      primaryKey: true,
      autoIncrement: true
    },
-   author: {
+   userId: {
      type: db.Sequelize.STRING
    },
    content: {
      type: db.Sequelize.STRING
    },
-   stock: {
+   stockId: {
      type: db.Sequelize.STRING
    }
   },{

@@ -1,15 +1,36 @@
-  <h5>Leave a comment:</h5>
-  <div class="row" *ngFor="let comment of comments" >
-     {{comment.author}}
-     {{comment.timestamp}}
-     {{comment.content}}
-  </div>
-    <div class="row" *ngFor="let typ of typers">
-      {{typ.name}} is typing!
+
+<ul class="list-group">
+  <li class="list-group-item top-buffer flex-column align-items-start" *ngFor="let comment of comments">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"> </h5>
+      <small>{{comment.timestamp}}</small>
     </div>
-  <div class="row">
-    <form [formGroup]="commentForm" (ngSubmit)="postComment(commentForm.value)">
-      <textarea formControlName="commentContent" class="form-control" rows="3" name="commentContent"></textarea>
-      <button type="submit" class="btn btn-default">post</button>
-    </form>
+
+    <p class="mb-1">{{comment.content}}</p>
+    <small>Written by: {{comment.author}}</small>
+    <div *ngIf="comment.owner" class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"> </h5>
+      <i (click)="removeComment(comment)" class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+    </div>
+  </li>
+
+</ul>
+
+
+<div class="form-group top-buffer">
+  <form [formGroup]="commentForm" (ngSubmit)="postComment(commentForm.value)">
+  <label for="exampleTextarea">Comment</label>
+  <textarea formControlName="commentContent" class="form-control" id="exampleTextarea" name="commentContent" rows="3"></textarea>
+  <div class="row top-buffer">
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <div class="col-md-8">
+      <span *ngFor="let typ of typers">
+        {{typ.name}} is typing!
+      </span>
+    </div>
   </div>
+</form>
+
+</div>

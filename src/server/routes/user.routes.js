@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const userModel = require('../models/user.js')();
+const userModel = require('../models/models.js').userModel;
 const debug = require('debug')('debug');
 const jwt = require('jsonwebtoken');
 

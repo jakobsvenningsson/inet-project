@@ -28,32 +28,43 @@ export class CommentService {
   }
   getCommentStream(stockId:string): Observable<Comment>{
     return new Observable(observer=>{
+      const user = this.auth.getUser().id;
+      console.log("LISTENING FOR COMMENTS");
       this.socket.emit("join", {channel: stockId});
       this.socket.on('newComment', function(comment){
         console.log("asocket comment");
-        observer.next(new Comment(comment.author, comment.content, comment.stock, comment.createdAt));
+        console.log(comment);
+        let owner = user === comment.userId ? true : false;
+        console.log("OWNER: " + owner);
+        observer.next(new Comment(comment.name, comment.content, comment.stockId, comment.timestamp, owner));
       });
     });
   }
   getTypingStream(stockId:string): Observable<Object>{
     return new Observable(observer=>{
       this.socket.on('startTyping', function(user){
-      //  console.log(user);
-        observer.next({add:true, name:user.name, id: user.id});
+        console.log(user);
+        observer.next({add:true, name:user.name, userId: user.id});
       });
       this.socket.on('stopTyping', function(user){
-      //  console.log(user);
-        observer.next({add:false, name:user.name, id: user.id});
+        console.log(user);
+        observer.next({add:false, name:user.name, userId: user.id});
       });
     });
   }
   isTyping(obj: Object){
-  //  console.log(obj);
+    console.log(obj);
     this.socket.emit('startTyping', obj);
   }
   stoppedTyping(obj: Object){
-  //  console.log(obj);
-
+    console.log(obj);
     this.socket.emit('stopTyping', obj);
   }
+/*  deleteCommenet(comment: Comment):Promise<Response>{
+    const authToken = this.auth.getUser();
+    const headers = new Headers({ 'Content-Type': 'application/json', 'Authorization' : authToken.token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.delete('/api/comment/delete/' + comment.stock + '/' + comment.u,options)
+      .toPromise();
+  }*/
 }

@@ -6,12 +6,14 @@ const db = require('../sequelize.js');
 
 module.exports = function() {
 
-  var Favorite = db.sequelize.define('comments', {
-   user: {
-     type: db.Sequelize.STRING
+  var Favorite = db.sequelize.define('favorites', {
+   userId: {
+     type: db.Sequelize.STRING,
+     primaryKey: true
    },
-   stock: {
-     type: db.Sequelize.STRING
+   stockId: {
+     type: db.Sequelize.STRING,
+     primaryKey: true
    }
   },{
     timestamps: false

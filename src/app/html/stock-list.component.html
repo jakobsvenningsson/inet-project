@@ -12,7 +12,9 @@
   <tr  *ngFor="let stock of stocks">
     <th [routerLink]="['/stocks', stock.id]"> {{stock.name}} </th>
     <th [routerLink]="['/stocks', stock.id]"> {{stock.exchange}} </th>
-    <th (click)="makeFavorite(stock)"> <i class="fa fa-heart-o" aria-hidden="true"></i></th>
+    <th (click)="makeFavorite(stock)">
+      <i class="fa" [ngClass]="{'fa-heart-o':!stock.favorite,'fa-heart':stock.favorite}" aria-hidden="true"></i>
+    </th>
   </tr>
 </tbody>
 </table>

@@ -1,12 +1,14 @@
 export class Comment{
-  author:string;
+  author:number;
   content:string;
-  stock: string;
+  stock: number;
   timestamp:string;
-  constructor(author:string, content: string, stockId: string, timestamp: string){
+  owner:boolean = false;
+  constructor(author:number, content: string, stockId: number, timestamp: string, owner?:boolean){
     this.author = author;
     this.content = content;
     this.stock = stockId;
     this.timestamp = timestamp;
+    this.owner = owner;
   }
 }
