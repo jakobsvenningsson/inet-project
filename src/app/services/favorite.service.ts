@@ -9,7 +9,7 @@ import { Favorite } from '../models/favorite';
 @Injectable()
 export class FavoriteService {
   private socket;
-  
+
   constructor(private http: Http, private auth: AuthGuard){
     this.socket = io.connect("http://localhost:3000");
   }
@@ -46,7 +46,7 @@ export class FavoriteService {
       .toPromise();
   }
 
-  favoriteStream(): Observable<any>{
+  favoriteStream(): Observable<Favorite>{
     const user = this.auth.getUser();
     return new Observable(observer=>{
       this.socket.emit("joinFavorites", {user:user.id});

@@ -1,20 +1,16 @@
 import { Component, Input, OnInit, OnDestroy} from '@angular/core';
-import { Comment } from './models/comment';
-import { User } from './models/user';
-import { CommentService } from './services/comment.service';
+import { Comment } from '../models/comment';
+import { User } from '../models/user';
+import { CommentService } from '../services/comment.service';
 import { FormBuilder, FormGroup } from '@angular/forms'
 import 'rxjs/Rx';
-
-
 import * as io from "socket.io-client";
-import { AuthGuard } from './services/auth-guard.service';
-
+import { AuthGuard } from '../services/auth-guard.service';
 
 
 @Component({
   selector: 'comment-component',
-  templateUrl: './html/comment.component.html',
-  styles: ['../styles.css'],
+  templateUrl: '../html/comment.component.html',
   providers: [CommentService]
 })
 

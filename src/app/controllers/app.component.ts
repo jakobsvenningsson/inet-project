@@ -4,8 +4,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './html/app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: '../html/app.component.html'
 })
 export class AppComponent {
   constructor(){}

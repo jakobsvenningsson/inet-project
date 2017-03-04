@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { StockService} from './services/stock.service';
-import { Stock } from './models/stock';
+import { StockService} from '../services/stock.service';
+import { Stock } from '../models/stock';
 
 @Component({
   selector: 'stock-search.component',
-  templateUrl: './html/stock-search.component.html',
-  providers: [StockService],
-  styles: ['../styles.css']
+  templateUrl: '../html/stock-search.component.html',
+  providers: [StockService]
 })
 
 export class StockSearchComponent {

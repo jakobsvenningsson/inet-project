@@ -1,13 +1,12 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { StockService} from './services/stock.service';
-import { Stock } from './models/stock';
+import { StockService} from '../services/stock.service';
+import { Stock } from '../models/stock';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @Component({
   selector: 'chart-component',
-  templateUrl: './html/chart.component.html',
-  providers: [StockService],
-  styles: ['../styles.css'],
+  templateUrl: '../html/chart.component.html',
+  providers: [StockService]
 })
 
 export class ChartComponent implements OnDestroy{

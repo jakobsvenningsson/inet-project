@@ -1,14 +1,14 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { UserService } from './services/user.service';
-import { RegisterComponent } from './register.component';
 import { Router } from '@angular/router';
-import { User } from './models/user';
+import { UserService } from '../services/user.service';
+import { RegisterComponent } from './register.component';
+import { User } from '../models/user';
 
 
 
 @Component({
   selector: 'login-component',
-  templateUrl: './html/login.component.html',
+  templateUrl: '../html/login.component.html',
   providers:[UserService]
 })
 export class LoginComponent {

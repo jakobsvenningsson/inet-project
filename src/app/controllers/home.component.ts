@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterComponent } from './register.component';
 import { LoginComponent } from './login.component';
-import { User } from './models/user';
-import { AuthGuard } from './services/auth-guard.service';
+import { User } from '../models/user';
+import { AuthGuard } from '../services/auth-guard.service';
 
 
 @Component({
   selector: 'home',
-  templateUrl: './html/home.component.html'
+  templateUrl: '../html/home.component.html'
 })
 export class HomeComponent {
   private token;

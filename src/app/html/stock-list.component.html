@@ -9,7 +9,7 @@
   </tr>
 </thead>
   <tbody>
-  <tr  *ngFor="let stock of stocks">
+  <tr  *ngFor="let stock of stockList">
     <th [routerLink]="['/stocks', stock.id]"> {{stock.name}} </th>
     <th [routerLink]="['/stocks', stock.id]"> {{stock.exchange}} </th>
     <th (click)="makeFavorite(stock)">

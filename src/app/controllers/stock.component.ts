@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { StockService} from './services/stock.service';
-import { Stock } from './models/stock';
+import { StockService} from '../services/stock.service';
+import { Stock } from '../models/stock';
 import { ActivatedRoute } from '@angular/router';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { ChartComponent } from './chart.component';
@@ -8,9 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'stock-component',
-  templateUrl: './html/stock.component.html',
-  providers: [StockService],
-  styles: ['../styles.css'],
+  templateUrl: '../html/stock.component.html',
+  providers: [StockService]
 })
 
 export class StockComponent{

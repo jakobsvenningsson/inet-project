@@ -22,8 +22,8 @@ create table stocks (
 );
 
 create table favorites (
-	stockId varchar(64),
-	userId varchar(64),
+	stockId int,
+	userId int,
 	FOREIGN KEY (stockId) REFERENCES stocks.id,
 	FOREIGN KEY (userId) REFERENCES users.id,
 	PRIMARY KEY (stockId, userId)
@@ -32,10 +32,10 @@ create table favorites (
 create table comments (
 	id int NOT NULL AUTO_INCREMENT,
        content varchar(256),
-       userId varchar(64),
+       userId int,
        createdAt varchar(64),
 			 updatedAt varchar(64),
-			 stockId varchar(64),
+			 stockId int,
 	FOREIGN KEY (userId) REFERENCES users.id,
 	FOREIGN KEY (stockId) REFERENCES stocks.id,
 	PRIMARY KEY (id)

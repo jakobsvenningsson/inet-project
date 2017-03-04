@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { StockService} from './services/stock.service';
-import { FavoriteService } from './services/favorite.service';
-import { Stock } from './models/stock';
+import { StockService} from '../services/stock.service';
+import { FavoriteService } from '../services/favorite.service';
+import { Stock } from '../models/stock';
 
 @Component({
   selector: 'favorites-stocks-component',
-  templateUrl: './html/favorites-stocks.component.html',
-  providers: [StockService, FavoriteService],
-  styles: ['../styles.css']
+  templateUrl: '../html/favorites-stocks.component.html',
+  providers: [StockService, FavoriteService]
 })
 
 export class FavoriteStocksComponent implements OnInit{
   stocks:Array<any>;
   constructor(private stockService: StockService, private favoriteService: FavoriteService){}
+
   ngOnInit(){
     this.favoriteService.getTopList()
       .then((data)=>{

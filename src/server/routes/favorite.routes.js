@@ -14,10 +14,9 @@ module.exports = function(io) {
 
   router.post('/favorite/add', passport.authenticate('jwt', { session: false }), function(req, res) {
     favoriteModel.findOne({
-      where: {userId: req.body.user, stockId: req.body.stock}
+      where: {userId: req.body.userId, stockId: req.body.stockId}
     })
     .then(function(favorite) {
-
       if(favorite) {
         res.status(200).send("favorite already in DB");
       } else {
@@ -25,7 +24,7 @@ module.exports = function(io) {
       }
     })
     .then(function(favorite) {
-      io.to(req.body.user).emit('addFavorite', favorite.get());
+      io.to(req.body.userId).emit('addFavorite', favorite.get());
       res.status(200).send("Favorite added!");
     })
     .catch(function(err) {
