@@ -4,7 +4,6 @@ import { User } from '../models/user';
 import { CommentService } from '../services/comment.service';
 import { FormBuilder, FormGroup } from '@angular/forms'
 import 'rxjs/Rx';
-import * as io from "socket.io-client";
 import { AuthGuard } from '../services/auth-guard.service';
 
 

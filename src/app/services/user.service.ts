@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 export class UserService {
 
   constructor(private http: Http){}
-  
+
   submitLogin(email:string, password:string): Promise<Response> {
     let headers = new Headers({'Content-Type' : 'application/json'});
     let options = new RequestOptions({ headers: headers });

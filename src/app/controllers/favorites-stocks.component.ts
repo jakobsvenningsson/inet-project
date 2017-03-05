@@ -24,6 +24,7 @@ export class FavoriteStocksComponent implements OnInit, OnDestroy {
 
       this.favoriteStream = this.favoriteService.favoriteStream()
         .subscribe((data)=>{
+          console.log(data);
           this.updateTopList(data);
         });
   }
@@ -32,13 +33,12 @@ export class FavoriteStocksComponent implements OnInit, OnDestroy {
     this.favoriteStream.unsubscribe();
   }
 
-  updateTopList(data){
+  updateTopList(favorite){
     console.log("updateToList");
-    console.log(data);
-    console.log(this.stocks);
-    let d = data.favorite ? 1 : -1;
-    this.stocks.find((stock) => stock.id == data.stock).favoriteCount+=d;
+    let d = favorite.isFavorite ? 1 : -1;
+    this.stocks.find((stock) => stock.id == favorite.stockId).favoriteCount+=d;
     this.stocks.sort((a, b) => {
+
       return b.favoriteCount - a.favoriteCount;
     });
   }

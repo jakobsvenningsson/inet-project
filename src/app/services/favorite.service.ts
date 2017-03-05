@@ -51,7 +51,7 @@ export class FavoriteService {
     return new Observable(observer=>{
       console.log("Favorites");
       console.log(user.id);
-    this.socket.emit("join", {channel: user.id});
+    this.socket.emit("join", {channel: "favorites"});
       console.log("listening");
       this.socket.on("addFavorite", (data) => {
         console.log("addfav");

@@ -22,6 +22,7 @@ export class StockListComponent implements OnInit, OnDestroy{
     Promise.all([this.stockService.getStocks(), this.favoriteService.getFavorites()])
       .then((values)=>{
         values[0].json().forEach((stock) => {
+          console.log(stock);
           if(values[1].json().length && values[1].json().find((favorite) => favorite.stockId === stock.id)) {
             this.stocks.list.push(new Stock(stock.name, stock.symbol, stock.exchange, stock.id, true));
           } else {

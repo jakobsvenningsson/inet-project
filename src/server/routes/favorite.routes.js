@@ -28,7 +28,7 @@ module.exports = function(io) {
       console.log("emittng");
       console.log(favorite.get());
       console.log(req.body);
-      io.to(req.body.userId).emit('addFavorite', favorite.get());
+      io.to("favorites").emit('addFavorite', favorite.get());
       res.status(200).send("Favorite added!");
     })
     .catch(function(err) {
@@ -45,7 +45,7 @@ module.exports = function(io) {
     .then(function(favorite){
       if(favorite){
         console.log("removing");
-        io.to(favorite.userId).emit('removeFavorite', favorite.get());
+        io.to("favorites").emit('removeFavorite', favorite.get());
         favorite.destroy();
         res.status(200).send("Favorite removed!");
       } else {
