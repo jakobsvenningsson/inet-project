@@ -1,4 +1,7 @@
+/* jslint node: true */
 /*jshint esversion: 6 */
+"use strict";
+
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const debug = require('debug')('debug');

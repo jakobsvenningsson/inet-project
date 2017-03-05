@@ -11,6 +11,7 @@ import { AuthGuard } from '../services/auth-guard.service';
   templateUrl: '../html/home.component.html'
 })
 export class HomeComponent {
+
   private token;
   loggedIn:boolean = false;
   register:boolean = false;
@@ -19,32 +20,32 @@ export class HomeComponent {
 
   constructor(private router:Router, private auth: AuthGuard){}
 
-  ngOnInit(){
-    if(this.auth.isLoggedIn()){
+  ngOnInit() {
+    if(this.auth.isLoggedIn()) {
       this.token = this.auth.getUser();
       console.log(this.token);
     }
   }
 
-  setLoginStatus(user){
-    if(user){
+  setLoginStatus(user) {
+    if(user) {
       this.auth.setUser(user);
       this.token = user;
       this.registerStatus = "";
       this.formError = "";
     }
   }
-  setError(error:string){
+  setError(error: string) {
     this.formError = error;
   }
 
-  toogleForms(){
+  toogleForms() {
     this.registerStatus="";
     this.formError = "";
     this.register = (this.register === false ? true : false);
   }
 
-  setRegisterStatus(user:User){
+  setRegisterStatus(user: User) {
     this.register = false;
     this.formError = "";
     this.registerStatus = `Registered account with email address ${user.email}`;

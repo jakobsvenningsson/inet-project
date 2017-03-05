@@ -1,4 +1,6 @@
+/* jslint node: true */
 /*jshint esversion: 6 */
+"use strict";
 
 const express = require('express');
 const router = express.Router();
@@ -10,59 +12,59 @@ const debug = require('debug')('debug');
 
 module.exports = function(io){
 
-  router.post('/comments/submit', passport.authenticate('jwt', { session: false }), function(req, res){
-    let comment = req.body;
+router.post('/comments/submit', passport.authenticate('jwt', { session: false }),
+  function(req, res) {
+    let socketComment = req.body;
     commentModel.create(req.body)
       .then(function(data){
-        comment.timestamp = data.get().createdAt;
-        comment.id = data.get().id;
+        socketComment.timestamp = data.get().createdAt;
+        socketComment.id = data.get().id;
         res.status(200).send("Comment submitted");
         return userModel.findOne({
-                  where: {id:data.get().userId}
+                  where: {id: data.get().userId}
                 });
               })
-                .then(function(user){
-                  comment.name = user.name;
-                  console.log(comment);
-                  console.log(comment.stockId);
-                  io.to(comment.stockId).emit('newComment', comment);
+                .then((user) => {
+                  socketComment.name = user.name;
+                  io.to(socketComment.stockId).emit('newComment', socketComment);
                 })
-                .catch(function(err){
+                .catch((err) => {
                   debug(err);
                   res.status(400).send(err);
                 });
 
 });
 
-  router.get('/comments/:id', passport.authenticate('jwt', { session: false }),  function(req, res){
-    commentModel.findAll({
-        include: [{
-          model: userModel,
-          attributes:['name'],
-      }]
-    })
-      .then(function(comments){
-        res.status(200).send(comments);
+  router.get('/comments/:id', passport.authenticate('jwt', { session: false }),
+    function(req, res){
+      commentModel.findAll({
+          include: [{
+            model: userModel,
+            attributes:['name'],
+        }]
       })
-      .catch(function(err){
-        debug(err);
-        res.status(400).send(err);
+        .then((comments) => {
+          res.status(200).send(comments);
+        })
+        .catch((err) => {
+          debug(err);
+          res.status(400).send(err);
+        });
+  });
+
+  router.delete('/comments/delete/:id', passport.authenticate('jwt', { session: false }),
+    function(req, res) {
+      commentModel.findOne({
+        where: {id: req.params.id}
+      })
+      .then((comment) => {
+        io.to(comment.stockId).emit('deleteComment', comment);
+        comment.destroy();
+        res.status(200).send("Comment deleted");
+      })
+      .catch((err) => {
+        res.send(400).send(err);
       });
-  });
-
-  router.delete('/comments/delete/:id', passport.authenticate('jwt', { session: false }), function(req, res){
-    commentModel.findOne({
-      where: {id:req.params.id}
-    })
-    .then(function(comment){
-      io.to(comment.stockId).emit('deleteComment', comment);
-      comment.destroy();
-      res.status(200).send("Comment deleted");
-    })
-    .catch(function(err){
-      res.send(400).send(err);
     });
-  });
-
-  return router;
-};
+    return router;
+  };

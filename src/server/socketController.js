@@ -10,7 +10,8 @@ var intervalEmit = {};
 var listeners = {};
 
 module.exports = function (socket, io) {
-  socket.on('join',function(data){
+
+  socket.on('join', function(data) {
     debug("Someone has joined room: " + data.channel);
     socket.join(data.channel);
   });
@@ -18,24 +19,30 @@ module.exports = function (socket, io) {
   socket.on('startStream', function(data){
     debug("starting stream to room: " + data.channel);
     socket.join(data.channel);
-    if(listeners.hasOwnProperty(data.channel)){
+
+    if(listeners.hasOwnProperty(data.channel)) {
       listeners[data.channel] = listeners[data.channel] + 1;
     } else {
       listeners[data.channel] = 1;
     }
+
     debug("Listeners in room: " + listeners[data.channel]);
-    if(!intervalEmit.hasOwnProperty(data.channel)){
+
+    if(!intervalEmit.hasOwnProperty(data.channel)) {
+
       intervalEmit[data.channel] = setInterval(function () {
-        console.log("EMIT DATA");
           getStockData(data);
       }, 4000);
     }
+
   });
 
-  socket.on('endStream', function(data){
+  socket.on('endStream', function(data) {
+
     debug("Leaving stream: " + data.channel);
     listeners[data.channel] = listeners[data.channel] - 1;
-    if(listeners[data.channel] === 0){
+
+    if(listeners[data.channel] === 0) {
       debug("delete room");
       clearInterval(intervalEmit[data.channel]);
       delete intervalEmit[data.channel];
@@ -45,23 +52,16 @@ module.exports = function (socket, io) {
     socket.leave(data.channel);
   });
 
-  socket.on('startTyping',function(data){
-    debug("someone's typing");
+  socket.on('startTyping',function(data) {
+    debug(data.name + " is typing");
     debug(data);
     io.to(data.stock).emit('startTyping',{name:data.name, email:data.email, id:data.id});
   });
-  socket.on('stopTyping',function(data){
-    debug("someone stopped typing");
+
+  socket.on('stopTyping',function(data) {
+    debug(data.name + " stopped typing");
     debug(data);
     io.to(data.stock).emit('stopTyping',{name:data.name, email:data.email, id:data.id});
-  });
-  io.on('disconnect', function(){
-    debug("disconnect!");
-  });
-
-  socket.on('joinFavorites',function(user){
-    console.log("Someone has joined favorites room");
-    socket.join(user.id);
   });
 
   function getStockData(data){

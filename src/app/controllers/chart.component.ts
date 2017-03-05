@@ -9,53 +9,61 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
   providers: [StockService]
 })
 
-export class ChartComponent implements OnDestroy{
+export class ChartComponent implements OnDestroy {
+
 @Input() stockSymbol;
-constructor(private stockService: StockService){}
+
 private stockStream;
+
+constructor(private stockService: StockService){}
+
 ngOnInit(){
 //  this.getStockHistory(this.stockSymbol);
 //  this.getStockDataStream(this.stockSymbol);
 }
 
 ngOnDestroy(){
-  console.log("DESTORY");
   //this.stockStream.unsubscribe();
   //this.stockService.endStream(this.stockSymbol);
 }
 
-getStockDataStream(symbol){
-  console.log("getstock data");
+getStockDataStream(symbol) {
   this.lineChartRealTimeData = [{data:[], label:this.stockSymbol}]
-  this.stockStream = this.stockService.getStockData(symbol).subscribe((res)=>{
+  this.stockStream = this.stockService.getStockData(symbol).subscribe((res) => {
+
     let timestamp = JSON.parse(res).results[0].serverTimestamp;
-    console.log(this.lineChartRealTimeLabels);
+
     this.lineChartRealTimeLabels.push(timestamp.substr(timestamp.indexOf('T') + 1, timestamp.length));
     this.lineChartRealTimeLabels = this.lineChartRealTimeLabels;
-    console.log(this.lineChartRealTimeData);
+
     this.lineChartRealTimeData[0].data.push(JSON.parse(res).results[0].lastPrice);
     this.lineChartRealTimeData = this.lineChartRealTimeData.slice()
-  },
+
+    console.log(this.lineChartRealTimeLabels);
+    console.log(this.lineChartRealTimeData);
+    },
   err=>console.log(err)
-);
+  );
 }
-getStockHistory(symbol){
+
+getStockHistory(symbol: string) {
   console.log("getstock history");
-  this.stockService.getStockHistory(symbol).subscribe((res)=>{
-    let data = [];
-    let labels = [];
-    res.json().results.forEach((row)=>{
-      labels.push(row.tradingDay);
-      data.push(row.close);
+  this.stockService.getStockHistory(symbol)
+    .subscribe((res) => {
+      let data = [];
+      let labels = [];
+      res.json().results.forEach((row)=>{
+        labels.push(row.tradingDay);
+        data.push(row.close);
+      });
+        this.lineChartHistoryData = [ {data: data, label: this.stockSymbol} ]
+        this.lineChartHistoryLabels = labels;
     });
-      this.lineChartHistoryData = [ {data: data, label: this.stockSymbol} ]
-      this.lineChartHistoryLabels = labels;
-  });
 }
 
 // Chart config
 public lineChartColors:Array<any> = [
-  { // grey
+  {
     backgroundColor: 'rgba(148,159,177,0.2)',
     borderColor: 'rgba(148,159,177,1)',
     pointBackgroundColor: 'rgba(148,159,177,1)',
@@ -64,6 +72,7 @@ public lineChartColors:Array<any> = [
     pointHoverBorderColor: 'rgba(148,159,177,0.8)'
   }
 ];
+
 public lineChartLegend:boolean = true;
 public lineChartType:string = 'line';
 public lineChartHistoryData:Array<any> = [{data:[],label:this.stockSymbol}];

@@ -19,7 +19,6 @@ export class RegisterComponent {
   @Output() errorEmitter: EventEmitter<string> = new EventEmitter();
   @Output() success: EventEmitter<User> = new EventEmitter();
 
-
   constructor(private userService: UserService){}
 
   register(){

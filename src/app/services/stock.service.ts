@@ -9,7 +9,7 @@ import * as io from "socket.io-client";
 
 @Injectable()
 export class StockService {
-  
+
   private socket;
   constructor(private http: Http, private auth: AuthGuard){
     this.socket = io.connect("http://localhost:3000");

@@ -12,32 +12,30 @@ export class StockSearchComponent {
 
   searchString: string = "";
   result:Stock[] = [];
-  error: string = "";
 
   constructor(private stockService: StockService){}
 
-  addToDatabase(stock: Stock){
+  addToDatabase(stock: Stock) {
     this.stockService.addStockToDatabase(stock)
-      .then((res)=>{
+      .then((res) => {
         console.log("Added stock to database");
         console.log(res);
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err);
       });
   }
 
-  getStocks(){
+  getStocks() {
     this.stockService.searchStocks(this.searchString)
-      .then((data)=>{
+      .then((data) => {
         this.result = [];
-        data.json().ResultSet.Result.forEach((stock)=>{
+        data.json().ResultSet.Result.forEach((stock) => {
           this.result.push(new Stock(stock.name, stock.symbol, stock.exchDisp, stock.id));
         });
       })
-      .catch((err)=>{
+      .catch((err) => {
         console.log(err);
-        this.error = err;
       });
   }
 }

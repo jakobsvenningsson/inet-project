@@ -9,11 +9,11 @@
   </tr>
 </thead>
   <tbody>
-  <tr  *ngFor="let stock of stockList">
+  <tr  *ngFor="let stock of stocks.list">
     <th [routerLink]="['/stocks', stock.id]"> {{stock.name}} </th>
     <th [routerLink]="['/stocks', stock.id]"> {{stock.exchange}} </th>
     <th (click)="alterFavorite(stock)">
-      <i class="fa" [ngClass]="{'fa-heart-o':!stock.favorite,'fa-heart':stock.favorite}" aria-hidden="true"></i>
+      <i class="fa" [ngClass]="{'fa-heart-o':!stock.favorite,'fa-heart':stock.favorite}" aria-hidden="true" style="color:red"></i>
     </th>
   </tr>
 </tbody>

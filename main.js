@@ -1,4 +1,7 @@
+/* jslint node: true */
 /*jshint esversion: 6 */
+"use strict";
+
 const express = require('express');
 const path = require('path');
 const http = require('http');
@@ -13,7 +16,6 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 const db = require('./src/server/sequelize.js');
 
-
 require('./src/server/passport.js')(passport);
 
 app.use(passport.initialize());
@@ -27,14 +29,7 @@ const io = require('socket.io').listen(server);
 const routes = require('./src/server/routes/index.routes.js')(io);
 app.use('/api', routes);
 app.get('*', (req, res) => {
-  console.log("awdawdawdad");
   res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
-
-app.use(function (err, req, res, next) {
-  if(err){
-    console.log(err);
-  }
 });
 
 
@@ -42,7 +37,9 @@ var socketController = require('./src/server/socketController.js');
 io.on('connection', function (socket) {
   debug("new socket connection!");
   socketController(socket, io);
+  Object.keys(io.sockets.sockets).forEach(function(id) {
+      console.log("ID:",id);  // socketId
+  });
 });
-
 
 server.listen(port, () => debug(`API running on localhost:${port}`));

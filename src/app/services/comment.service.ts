@@ -44,7 +44,7 @@ export class CommentService {
   }
 
   getTypingStream(stockId: number): Observable<Object> {
-    return new Observable(observer=> {
+    return new Observable(observer => {
       this.socket.on('startTyping', function(user) {
         observer.next({add:true, name:user.name, userId: user.id});
       });

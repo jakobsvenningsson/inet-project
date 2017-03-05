@@ -49,12 +49,17 @@ export class FavoriteService {
   favoriteStream(): Observable<Favorite>{
     const user = this.auth.getUser();
     return new Observable(observer=>{
-      this.socket.emit("joinFavorites", {user: user.id});
+      console.log("Favorites");
+      console.log(user.id);
+    this.socket.emit("join", {channel: user.id});
       console.log("listening");
       this.socket.on("addFavorite", (data) => {
+        console.log("addfav");
+        console.log(data);
         observer.next(new Favorite(data.userId, data.stockId, true));
       });
       this.socket.on("removeFavorite", (data) => {
+        console.log("removeFav");
         observer.next(new Favorite(data.userId, data.stockId, false));
       });
     });

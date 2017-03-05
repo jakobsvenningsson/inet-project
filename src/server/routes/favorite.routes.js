@@ -13,6 +13,7 @@ const sequelize = require('../sequelize.js').sequelize;
 module.exports = function(io) {
 
   router.post('/favorite/add', passport.authenticate('jwt', { session: false }), function(req, res) {
+    console.log(req.body);
     favoriteModel.findOne({
       where: {userId: req.body.userId, stockId: req.body.stockId}
     })
@@ -24,6 +25,9 @@ module.exports = function(io) {
       }
     })
     .then(function(favorite) {
+      console.log("emittng");
+      console.log(favorite.get());
+      console.log(req.body);
       io.to(req.body.userId).emit('addFavorite', favorite.get());
       res.status(200).send("Favorite added!");
     })
@@ -39,9 +43,14 @@ module.exports = function(io) {
       where: {userId: req.params.user, stockId: req.params.stock}
     })
     .then(function(favorite){
-      io.to(req.body.user).emit('removeFavorite', favorite.get());
-      favorite.destroy();
-      res.status(200).send("Favorite removed!");
+      if(favorite){
+        console.log("removing");
+        io.to(favorite.userId).emit('removeFavorite', favorite.get());
+        favorite.destroy();
+        res.status(200).send("Favorite removed!");
+      } else {
+        res.status(200).send("No favorite to remove");
+      }
     })
     .catch(function(err) {
       debug(err);
