@@ -34,14 +34,16 @@ router.post('/comments/submit', passport.authenticate('jwt', { session: false })
                 });
 
 });
-
+  // Get comments by stockId
   router.get('/comments/:id', passport.authenticate('jwt', { session: false }),
     function(req, res){
       commentModel.findAll({
+          where: {stockId: req.params.id},
           include: [{
             model: userModel,
-            attributes:['name'],
-        }]
+            attributes:['name','id'],
+        }],
+        order:[['createdAt','ASC']]
       })
         .then((comments) => {
           res.status(200).send(comments);
@@ -51,7 +53,7 @@ router.post('/comments/submit', passport.authenticate('jwt', { session: false })
           res.status(400).send(err);
         });
   });
-
+  // delete comments by commentId
   router.delete('/comments/delete/:id', passport.authenticate('jwt', { session: false }),
     function(req, res) {
       commentModel.findOne({

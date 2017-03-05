@@ -36,7 +36,8 @@ export class CommentComponent implements OnInit, OnDestroy {
           const user = this.auth.getUser();
           res.json().forEach((comment)=>{
             console.log(comment);
-            if(comment.userId === String(user.id)){
+            if(comment.user.id === user.id){
+              console.log("awd");
               this.comments.push(new Comment(comment.user.name, comment.content, comment.stockId, comment.createdAt,comment.id, true));
             }else {
               this.comments.push(new Comment(comment.user.name, comment.content, comment.stockId, comment.createdAt,comment.id,false));

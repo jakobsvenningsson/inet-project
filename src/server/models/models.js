@@ -13,8 +13,6 @@ models.stockModel.hasMany(models.favoriteModel);
 models.favoriteModel.belongsTo(models.stockModel);
 //models.stockModel.hasMany(models.commentModel);
 
-
-//models.userModel.hasMany(models.favoriteModel);
-//models.userModel.hasMany(models.commentModel);
+models.commentModel.belongsTo(models.userModel);
 
 module.exports = models;
