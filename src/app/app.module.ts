@@ -17,7 +17,7 @@ import { CommentComponent } from './controllers/comment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FavoriteStocksComponent } from './controllers/favorites-stocks.component';
 
-
+//betson decorna, atlas copco
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent},

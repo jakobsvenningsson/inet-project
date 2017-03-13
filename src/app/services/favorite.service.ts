@@ -11,7 +11,7 @@ export class FavoriteService {
   private socket;
 
   constructor(private http: Http, private auth: AuthGuard){
-    this.socket = io.connect("http://localhost:3000");
+    this.socket = io.connect("http://130.229.188.139:3000");
   }
 
   addFavorite(stockId: number): Promise<Response> {
@@ -63,5 +63,9 @@ export class FavoriteService {
         observer.next(new Favorite(data.userId, data.stockId, false));
       });
     });
+  }
+
+  close(){
+    this.socket.disconnect();
   }
 }

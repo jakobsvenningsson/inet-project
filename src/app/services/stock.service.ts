@@ -6,13 +6,12 @@ import { AuthGuard } from './auth-guard.service';
 import { Observable } from 'rxjs/Observable';
 import * as io from "socket.io-client";
 
-
 @Injectable()
 export class StockService {
 
   private socket;
   constructor(private http: Http, private auth: AuthGuard){
-    this.socket = io.connect("http://localhost:3000");
+    this.socket = io.connect("http://130.229.188.139:3000");
   }
 
   searchStocks(name:string): Promise<Response> {
@@ -29,6 +28,8 @@ export class StockService {
       this.socket.on('newSocketData', (data)=>{
         observer.next(data);
       });
+      observer.add(() => this.endStream(symbol));
+
     });
   }
 
