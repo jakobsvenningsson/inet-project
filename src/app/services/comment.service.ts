@@ -10,7 +10,7 @@ export class CommentService {
 
   private socket;
   constructor(private http: Http, private auth: AuthGuard){
-    this.socket = io.connect("http://localhost:3000");
+    this.socket = io.connect("http://130.229.188.139:3000");
   }
 
   postComment(comment: Object): Promise<Response> {
@@ -40,6 +40,7 @@ export class CommentService {
       this.socket.on('deleteComment', function(comment) {
         observer.next(new Comment(null, null, comment.stockId, null, comment.id, false));
       });
+
     });
   }
 

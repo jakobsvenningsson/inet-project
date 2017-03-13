@@ -12,3 +12,5 @@ export class Stock{
     this.favorite = favorite;
   }
 }
+
+//5236583

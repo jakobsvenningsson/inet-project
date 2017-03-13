@@ -37,9 +37,6 @@ var socketController = require('./src/server/socketController.js');
 io.on('connection', function (socket) {
   debug("new socket connection!");
   socketController(socket, io);
-  Object.keys(io.sockets.sockets).forEach(function(id) {
-      console.log("ID:",id);  // socketId
-  });
 });
 
 server.listen(port, () => debug(`API running on localhost:${port}`));

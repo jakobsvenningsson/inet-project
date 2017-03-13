@@ -31,6 +31,7 @@ export class FavoriteStocksComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.favoriteStream.unsubscribe();
+    this.favoriteService.close();
   }
 
   updateTopList(favorite){

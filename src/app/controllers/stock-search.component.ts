@@ -31,7 +31,9 @@ export class StockSearchComponent {
       .then((data) => {
         this.result = [];
         data.json().ResultSet.Result.forEach((stock) => {
-          this.result.push(new Stock(stock.name, stock.symbol, stock.exchDisp, stock.id));
+          if(stock.exchDisp === "NASDAQ" || stock.exchDisp === "NYSE"){
+            this.result.push(new Stock(stock.name, stock.symbol, stock.exchDisp, stock.id));
+          }
         });
       })
       .catch((err) => {

@@ -24,14 +24,19 @@ ngOnInit(){
 
 ngOnDestroy(){
   this.stockStream.unsubscribe();
-  this.stockService.endStream(this.stockSymbol);
+  //this.stockService.endStream(this.stockSymbol);
 }
 
 getStockDataStream(symbol) {
   this.lineChartRealTimeData = [{data:[], label:this.stockSymbol}]
   this.stockStream = this.stockService.getStockData(symbol).subscribe((res) => {
 
+
+
+
     let timestamp = JSON.parse(res).results[0].serverTimestamp;
+
+
 
     this.lineChartRealTimeLabels.push(timestamp.substr(timestamp.indexOf('T') + 1, timestamp.length));
     this.lineChartRealTimeLabels = this.lineChartRealTimeLabels;
@@ -77,8 +82,20 @@ public lineChartLegend:boolean = true;
 public lineChartType:string = 'line';
 public lineChartHistoryData:Array<any>;
 public lineChartHistoryLabels:Array<any>;
+public lineChartOptions1:any = {
+  title: {
+    text: "Adding & Updating dataPoints"
+  },
+  responsive: true,
+  scales: {
+  yAxes: [ { id: 'Value', type: 'linear', position: 'left', ticks: {stepWidth:0.01, steps:20} }, ],
+}
+
+};
+
 public lineChartOptions:any = {
-  responsive: true
+  responsive: true,
+
 };
 
 public lineChartRealTimeData:Array<any> = [{data:[],label:this.stockSymbol}];
